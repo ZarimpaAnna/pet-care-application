@@ -4,7 +4,7 @@ Pet Care Application is a full-stack web application developed as the final proj
 
 The application allows pet owners to manage their pets and keep important health information organized in one place, including vaccinations and medical records.
 
-It provides secure user authentication and role-based authorization, ensuring that users can access and manage only their own data, while administrators have access to all application data.
+Users can manage only their own pets and related records, while administrators have access to all application data.
 
 The project consists of a Spring Boot REST API backend, a React frontend, and a PostgreSQL database.
 
@@ -12,8 +12,7 @@ The project consists of a Spring Boot REST API backend, a React frontend, and a 
 
 ### User Features
 - User registration and login
-- Secure JWT-based authentication
-- View and manage personal pets only
+- View and manage personal pets
 - Add, edit, view and delete pets
 - Add, edit, view and delete vaccinations
 - Add, edit, view and delete medical records
@@ -43,7 +42,7 @@ The project consists of a Spring Boot REST API backend, a React frontend, and a 
 
 ## Architecture
 
-The application follows a layered full-stack architecture, separating the frontend, backend business logic, data access, and database.
+The application consists of a React frontend, a Spring Boot REST API and a PostgreSQL database.
 
 ### Application Architecture
 
@@ -59,11 +58,7 @@ The backend follows a layered architecture:
 
 Controller → Service → Repository → Database
 
-- **Controllers** expose REST API endpoints and handle HTTP requests and responses.
-- **Services** contain the application's business logic, authorization and ownership rules.
-- **Repositories** provide data access through Spring Data JPA.
-- **DTOs** are used to transfer data between the API and the client without exposing the persistence entities directly.
-- **Entities** represent the application's domain model and are mapped to the PostgreSQL database using JPA.
+DTOs are used for API data transfer, while JPA entities represent the database model. Business logic, authorization and ownership checks are handled in the service layer.
 
 Authentication is handled using Spring Security and JWT. The React frontend communicates with the backend through protected REST API endpoints.
 
@@ -178,9 +173,9 @@ The JWT secret can be provided through the `JWT_SECRET` environment variable.
 jwt.secret=${JWT_SECRET:ThisIsADemoSecretKeyForLocalDevelopmentOnly2026}
 ```
 
-If no JWT_SECRET environment variable is provided, the application uses the default development value shown above. This allows the application to run locally without additional configuration.
+If no `JWT_SECRET` environment variable is provided, the application uses the default development value shown above.
 
-For production environments, a secure JWT_SECRET environment variable should be provided instead of using the default development value.
+For production environments, a secure `JWT_SECRET` environment variable should be provided instead of using the default development value.
 
 Hibernate is configured with:
 
@@ -188,7 +183,7 @@ Hibernate is configured with:
 spring.jpa.hibernate.ddl-auto=update
 ```
 
-This allows JPA/Hibernate to create or update the database schema automatically based on the application entities.
+The database schema is created/updated automatically from the JPA entities.
 
 
 ### 4. Run the Backend
@@ -198,10 +193,10 @@ Navigate to the backend project directory and run:
 ```bash
 cd petcare_backend
 
--- Windows:
+# Windows:
 .\mvnw.cmd clean spring-boot:run
 
--- macOS/Linux:
+# macOS/Linux:
 ./mvnw clean spring-boot:run
 ```
 
@@ -312,30 +307,30 @@ The application includes a small demo dataset designed to demonstrate different 
 ### Demo Dataset
 
 - **admin1**
-  - 🐱 Pico
-    - 💉 Rabies — VALID
-    - 🩺 Chronic rhinitis follow-up
+  - Pico
+    - Rabies — VALID
+    - Chronic rhinitis follow-up
 
 - **user1**
-  - 🐱 Luna
-    - 💉 Tricat — VALID
-    - 🩺 Healthy
-  - 🐱 Nova
-    - 🩺 First examination
+  - Luna
+    - Tricat — VALID
+    - Healthy
+  - Nova
+    - First examination
     - No recorded vaccinations
 
 - **user2**
-  - 🐶 Rex
-    - 💉 DHPPiL — VALID
-    - 💉 Rabies — EXPIRED
-    - 💉 FeLV — NO_DUE_DATE
-    - 💉 FVRCP — UPCOMING
-    - 🩺 Annual check-up
+  - Rex
+    - DHPPiL — VALID
+    - Rabies — EXPIRED
+    - FeLV — NO_DUE_DATE
+    - FVRCP — UPCOMING
+    - Annual check-up
 
 The dataset provides examples of:
 - USER and ADMIN access
 - Multiple pets per owner
-- Cats and dogs (although other pet categories can be logged too)
+- Different pet species
 - Pets with and without vaccinations
 - Medical records
 - All supported vaccination statuses
@@ -346,12 +341,10 @@ The demo dataset is created automatically only when the database is empty and is
 
 Possible future extensions include:
 
-- Search and advanced filtering
+- Search and filtering
 - Pagination
-- Automated unit and integration tests
+- Unit and integration tests
 - Database migrations with Flyway or Liquibase
-- Pet weight tracking and charts
-- File uploads for medical documents
-- Email reminders and notifications
 - Medication management
 - Pet passport management
+- File uploads for medical documents
