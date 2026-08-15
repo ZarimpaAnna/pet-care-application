@@ -8,7 +8,7 @@ It provides secure user authentication and role-based authorization, ensuring th
 
 The project consists of a Spring Boot REST API backend, a React frontend, and a PostgreSQL database.
 
-## ✨ Features
+## Features
 
 ### User Features
 - User registration and login
@@ -41,7 +41,7 @@ The project consists of a Spring Boot REST API backend, a React frontend, and a 
 - User-friendly validation and authentication error messages
 - Swagger / OpenAPI documentation
 
-## 🏗️ Architecture
+## Architecture
 
 The application follows a layered full-stack architecture, separating the frontend, backend business logic, data access, and database.
 
@@ -67,7 +67,7 @@ Controller → Service → Repository → Database
 
 Authentication is handled using Spring Security and JWT. The React frontend communicates with the backend through protected REST API endpoints.
 
-## 🗂️ Domain Model
+## Domain Model
 
 The main domain entities and their relationships are:
 
@@ -83,7 +83,7 @@ AppUser
 - **Vaccination** stores vaccination information for a specific Pet.
 - **MedicalRecord** stores medical history and veterinary visit information for a specific Pet.
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Backend
 - Java 21
@@ -111,7 +111,7 @@ AppUser
 - Visual Studio Code
 - Git / GitHub
 
-## 🚀 Build and Run
+## Build and Run
 
 ### Prerequisites
 
@@ -134,12 +134,9 @@ The application consists of three parts:
 Clone the project and navigate to the project directory:
 
 ```bash
-git clone <YOUR-GITHUB-REPOSITORY-URL>
-cd <PROJECT-DIRECTORY>
+git clone https://github.com/ZarimpaAnna/pet-care-application.git
+cd pet-care-application
 ```
-
-Το πραγματικό GitHub URL θα το βάλουμε στο τέλος όταν είναι έτοιμο το repo.
-
 
 ### 2. Start the PostgreSQL Database
 
@@ -268,7 +265,7 @@ To preview the production build locally, run:
 npm run preview
 ```
 
-## 📚 API Documentation
+## API Documentation
 
 The backend REST API is documented using Swagger / OpenAPI.
 
@@ -280,7 +277,7 @@ Swagger can be used to explore and test the available REST API endpoints.
 
 For protected endpoints, authenticate through the login endpoint and use the generated JWT token with the **Authorize** option.
 
-## 🔐 Authentication and Authorization
+## Authentication and Authorization
 
 The application uses JWT-based authentication and supports two roles:
 
@@ -297,7 +294,7 @@ The application uses JWT-based authentication and supports two roles:
 
 Authorization and ownership rules are enforced by the backend and do not rely only on frontend restrictions.
 
-## 🧪 Demo Data
+## Demo Data
 
 The application includes a small demo dataset designed to demonstrate different users, pets, ownership rules and vaccination statuses.
 
@@ -342,7 +339,7 @@ The dataset provides examples of:
 
 The demo dataset is created automatically only when the database is empty and is intended for testing and demonstration purposes.
 
-## 🔮 Future Improvements
+## Future Improvements
 
 Possible future extensions include:
 
