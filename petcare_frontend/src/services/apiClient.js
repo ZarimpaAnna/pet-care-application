@@ -19,8 +19,11 @@ apiClient.interceptors.response.use(
 
     (error) => {
         const status = error.response?.status
+        const requestUrl = error.config?.url
 
-        if (status === 401) {
+        const isLoginRequest = requestUrl?.includes('/auth/login')
+
+        if (status === 401 && !isLoginRequest) {
             localStorage.removeItem('token')
             localStorage.removeItem('username')
 

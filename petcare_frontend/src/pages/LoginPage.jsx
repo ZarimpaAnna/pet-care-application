@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import AuthService from "../services/AuthService";
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { getApiErrorMessage } from '../utils/errorUtils'
 
 function LoginPage() {
 
@@ -8,8 +9,11 @@ function LoginPage() {
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
     const [searchParams] = useSearchParams()
+
     const sessionExpired = searchParams.get('expired') === 'true'
     const registrationCompleted = searchParams.get('registered') === 'true'
+
+    const [error, setError] = useState('')
 
     useEffect(() => {
 
@@ -19,7 +23,10 @@ function LoginPage() {
 
     }, []);
 
-    const handleLogin = async () => {
+    const handleLogin = async (event) => {
+
+        event.preventDefault()
+        setError('')
 
         try {
 
@@ -32,12 +39,15 @@ function LoginPage() {
 
             navigate('/dashboard')
 
-            console.log(localStorage.getItem("token"));
-
         } catch (error) {
+            console.error(error)
 
-            console.error(error);
-
+            setError(
+                getApiErrorMessage(
+                    error,
+                    'Invalid username or password.'
+                )
+            )
         }
 
     };
@@ -54,7 +64,7 @@ function LoginPage() {
 
                 {sessionExpired && (
                     <p className="info-message">
-                        Your session has expired. Please log in again..
+                        Your session has expired. Please log in again.
                     </p>
                 )}
 
@@ -64,33 +74,47 @@ function LoginPage() {
                     </p>
                 )}
 
-                <div className="form-group">
+                <form onSubmit={handleLogin}>
 
-                    <label>Username</label>
+                    <div className="form-group">
 
-                    <input
-                        type="text"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
+                        <label htmlFor="username">Username</label>
 
-                </div>
+                        <input
+                            id="username"
+                            type="text"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            required
+                        />
 
-                <div className="form-group">
+                    </div>
 
-                    <label>Password</label>
+                    <div className="form-group">
 
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
+                        <label htmlFor="password">Password</label>
 
-                </div>
+                        <input
+                            id="password"
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
 
-                <button onClick={handleLogin}>
-                    Login
-                </button>
+                    </div>
+
+                    {error && (
+                        <p className="error-message">
+                            {error}
+                        </p>
+                    )}
+
+                    <button type="submit">
+                        Login
+                    </button>
+
+                </form>
 
                 <p className="auth-footer">
                     Don't have an account?{' '}
