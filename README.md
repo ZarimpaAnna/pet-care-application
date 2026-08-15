@@ -71,11 +71,13 @@ Authentication is handled using Spring Security and JWT. The React frontend comm
 
 The main domain entities and their relationships are:
 
+```text
 AppUser
 └── Owner (One-to-One)
     └── Pets (One-to-Many)
         ├── Vaccinations (One-to-Many)
         └── Medical Records (One-to-Many)
+```
 
 - **AppUser** stores authentication information such as username, encrypted password and role.
 - **Owner** stores the pet owner's personal information and is associated with an AppUser.
