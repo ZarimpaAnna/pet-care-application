@@ -221,7 +221,7 @@ function EditPetPage() {
                     {error && <p className="error-message">{error}</p>}
 
                     <div className="form-actions">
-                        <button type="submit">Save Changes</button>
+                        <button type="submit">Save Changes</button>\
 
                         <button
                             type="button"
