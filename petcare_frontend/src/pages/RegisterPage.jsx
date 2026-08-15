@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import AuthService from '../services/AuthService'
+import { getApiErrorMessage } from '../utils/errorUtils'
 
 function RegisterPage() {
     const navigate = useNavigate()
@@ -47,12 +48,11 @@ function RegisterPage() {
         } catch (error) {
             console.error(error)
 
-            const backendMessage =
-                error.response?.data?.message
-
             setError(
-                backendMessage ||
-                'Unable to create account. Please check the entered information.'
+                getApiErrorMessage(
+                    error,
+                    'Unable to create account. Please check the entered information.'
+                )
             )
         }
     }
@@ -77,6 +77,7 @@ function RegisterPage() {
                                 name="firstName"
                                 value={registration.firstName}
                                 onChange={handleChange}
+                                maxLength={50}
                                 required
                             />
                         </div>
@@ -89,6 +90,7 @@ function RegisterPage() {
                                 name="lastName"
                                 value={registration.lastName}
                                 onChange={handleChange}
+                                maxLength={50}
                                 required
                             />
                         </div>
@@ -102,18 +104,21 @@ function RegisterPage() {
                                 type="email"
                                 value={registration.email}
                                 onChange={handleChange}
+                                maxLength={50}
                                 required
                             />
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="phoneNumber">Phone number</label>
+                            <label htmlFor="phoneNumber">Phone number  *</label>
 
                             <input
                                 id="phoneNumber"
                                 name="phoneNumber"
                                 value={registration.phoneNumber}
                                 onChange={handleChange}
+                                maxLength={50}
+                                required
                             />
                         </div>
 
@@ -125,6 +130,7 @@ function RegisterPage() {
                                 name="username"
                                 value={registration.username}
                                 onChange={handleChange}
+                                maxLength={20}
                                 required
                             />
                         </div>
@@ -138,6 +144,8 @@ function RegisterPage() {
                                 type="password"
                                 value={registration.password}
                                 onChange={handleChange}
+                                minLength={4}
+                                maxLength={20}
                                 required
                             />
                         </div>
@@ -153,6 +161,8 @@ function RegisterPage() {
                                 type="password"
                                 value={registration.confirmPassword}
                                 onChange={handleChange}
+                                minLength={4}
+                                maxLength={20}
                                 required
                             />
                         </div>
