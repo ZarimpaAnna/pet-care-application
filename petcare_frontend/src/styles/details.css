@@ -1,0 +1,67 @@
+.pet-details-layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 28px;
+    align-items: start;
+}
+
+.pet-photo-section {
+    width: 100%;
+}
+
+.pet-photo {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid #dce7e3;
+}
+
+.pet-photo-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 260px;
+    border: 1px dashed #bccdc7;
+    border-radius: 12px;
+    background-color: #f7fbfa;
+    color: #7a8b90;
+}
+
+.pet-details-content {
+    min-width: 0;
+}
+
+.details-section {
+    margin-bottom: 24px;
+}
+
+.details-section h3 {
+    margin: 0 0 14px;
+    color: #2f7d6d;
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px 24px;
+}
+
+.details-grid p,
+.details-section p {
+    margin: 8px 0;
+}
+
+@media (max-width: 760px) {
+    .pet-details-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .pet-photo {
+        max-width: 320px;
+    }
+
+    .details-grid {
+        grid-template-columns: 1fr;
+    }
+}

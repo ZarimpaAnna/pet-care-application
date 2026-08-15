@@ -1,0 +1,35 @@
+.table-container {
+    overflow-x: auto;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 760px;
+}
+
+.data-table th,
+.data-table td {
+    padding: 14px 16px;
+    text-align: left;
+    border-bottom: 1px solid #e2ebe8;
+}
+
+.data-table th {
+    background-color: #edf6f3;
+    color: #28423d;
+    font-size: 0.95rem;
+}
+
+.data-table tbody tr:hover {
+    background-color: #f8fbfa;
+}
+
+.table-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.date-column {
+    white-space: nowrap;
+}
