@@ -39,6 +39,4 @@ public class PetInsertDTO {
 
     private String photoUrl;
 
-//    @NotNull
-//    private Long ownerId;
 }

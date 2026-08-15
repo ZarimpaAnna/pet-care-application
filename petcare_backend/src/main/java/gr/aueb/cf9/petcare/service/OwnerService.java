@@ -91,9 +91,6 @@ public class OwnerService {
                 );
     }
 
-//    public void deleteOwner(Long id) {
-//        ownerRepository.deleteById(id);
-//    }
 
     public void deleteOwner(Long id) {
 
