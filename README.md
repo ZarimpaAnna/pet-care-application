@@ -234,7 +234,7 @@ The frontend will be available at the local URL displayed by Vite, typically:
 
 `http://localhost:5173`
 
-```markdown
+
 If the frontend runs on a different port, its origin must also be added to the CORS configuration in:
 
 `petcare_backend/src/main/java/gr/aueb/cf9/petcare/config/SecurityConfig.java`
@@ -246,6 +246,7 @@ configuration.setAllowedOrigins(List.of(
         "http://localhost:5173",
         "http://localhost:4173"
 ));
+```
 
 ### 7. Build the Frontend
 
