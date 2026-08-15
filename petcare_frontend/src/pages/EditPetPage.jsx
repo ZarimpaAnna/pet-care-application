@@ -18,7 +18,6 @@ function EditPetPage() {
         gender: 'UNKNOWN',
         notes: '',
         photoUrl: '',
-        // ownerId: '',
     })
 
     const [loading, setLoading] = useState(true)
@@ -43,7 +42,6 @@ function EditPetPage() {
                 gender: data.gender || 'UNKNOWN',
                 notes: data.notes || '',
                 photoUrl: data.photoUrl || '',
-                // ownerId: data.owner?.id || data.ownerId || '',
             })
         } catch (error) {
             console.error(error)
@@ -207,19 +205,6 @@ function EditPetPage() {
                                 <label htmlFor="sterilized">Yes</label>
                             </div>
                         </div>
-
-                        {/* <div className="form-group">
-                            <label htmlFor="ownerId">Owner ID *</label>
-                            <input
-                                id="ownerId"
-                                name="ownerId"
-                                type="number"
-                                min="1"
-                                value={pet.ownerId}
-                                onChange={handleChange}
-                                required
-                            />
-                        </div> */}
                     </div>
 
                     <div className="form-group">
