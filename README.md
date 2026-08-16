@@ -4,14 +4,15 @@ Pet Care Application is a full-stack web application developed as the final proj
 
 The application allows pet owners to manage their pets and keep important health information organized in one place, including vaccinations and medical records.
 
-Users can manage only their own pets and related records, while administrators have access to all application data.
+Users can manage only their own pets and related records, while administrators can access pets, vaccinations and medical records across all users and can view registered users and owners.
 
 The project consists of a Spring Boot REST API backend, a React frontend, and a PostgreSQL database.
 
 ## Features
 
 ### User Features
-- User registration and login
+- User registration with automatic Owner profile creation
+- User login and logout
 - View and manage personal pets
 - Add, edit, view and delete pets
 - Add, edit, view and delete vaccinations
@@ -21,7 +22,7 @@ The project consists of a Spring Boot REST API backend, a React frontend, and a 
 
 ### Administration
 - Role-based access control with USER and ADMIN roles
-- Administrators can view and manage application data across all users
+- Administrators can access and manage pets, vaccinations and medical records across all users and view registered users and owners.
 
 ### Security
 - Password encryption using BCrypt
@@ -30,12 +31,15 @@ The project consists of a Spring Boot REST API backend, a React frontend, and a 
 - Backend ownership validation
 - Users can access only their own pets and related records
 - Owner association is determined by the authenticated user and cannot be manipulated from the frontend
+- Invalid, missing or expired JWT tokens return HTTP 401, while authenticated users attempting unauthorized operations receive HTTP 403
+- Expired or invalid sessions are automatically cleared and redirected to the login page.
 
 ### Additional Features
 - Responsive user interface
 - Dashboard with application statistics
 - Pet profile photos using image URLs
-- Form and date validation
+- Form and date validation, including prevention of future birth, vaccination and medical visit dates
+- Vaccination due-date validation to ensure the next due date is later than the vaccination date
 - Centralized backend exception handling
 - User-friendly validation and authentication error messages
 - Swagger / OpenAPI documentation
@@ -46,19 +50,21 @@ The application consists of a React frontend, a Spring Boot REST API and a Postg
 
 ### Application Architecture
 
+```text
 React Frontend  
-↓  
-REST API  
-↓  
+     ↓  
+  REST API  
+     ↓  
 Spring Boot Backend  
-↓  
+     ↓  
 PostgreSQL Database
+```
 
 The backend follows a layered architecture:
 
 Controller → Service → Repository → Database
 
-DTOs are used for API data transfer, while JPA entities represent the database model. Business logic, authorization and ownership checks are handled in the service layer.
+DTOs are used for API data transfer, while JPA entities represent the database model. Business logic, including computed vaccination and microchip statuses, as well as authorization and ownership checks, is handled in the service layer.
 
 Authentication is handled using Spring Security and JWT. The React frontend communicates with the backend through protected REST API endpoints.
 
@@ -79,6 +85,21 @@ AppUser
 - **Pet** represents a pet belonging to an Owner.
 - **Vaccination** stores vaccination information for a specific Pet.
 - **MedicalRecord** stores medical history and veterinary visit information for a specific Pet.
+
+### Business Logic
+
+The application includes computed health-related information that is derived dynamically rather than stored in the database:
+
+- **Vaccination Status**
+  - `NO_DUE_DATE` — no next due date is defined
+  - `EXPIRED` — the next due date has passed
+  - `UPCOMING` — the next due date is today or within the next 30 days
+  - `VALID` — the vaccination does not fall into any of the above categories
+- **Microchip Status**
+  - `REGISTERED` — a microchip number is present
+  - `NOT_REGISTERED` — no microchip number is present
+- **Overdue Vaccinations**
+  - Each pet indicates whether it has at least one vaccination with a past due date.
 
 ## Tech Stack
 
@@ -115,7 +136,6 @@ AppUser
 Before running the application, make sure the following are installed:
 
 - Java 21
-- Maven
 - Node.js and npm
 - Docker Desktop
 - Git
@@ -183,7 +203,7 @@ Hibernate is configured with:
 spring.jpa.hibernate.ddl-auto=update
 ```
 
-The database schema is created/updated automatically from the JPA entities.
+For local development, the database schema is created/updated automatically from the JPA entities.
 
 
 ### 4. Run the Backend
@@ -204,9 +224,9 @@ Alternatively, the application can be started directly from IntelliJ IDEA by run
 
 #### Demo Data Initialization
 
-When the backend starts with an empty database, the application automatically initializes the predefined demo users, pets, vaccinations and medical records.
+When the backend starts with an empty database, the application automatically initializes the predefined demo users, owners, pets, vaccinations and medical records.
 
-The demo data is created only when the database is empty and is not recreated on subsequent application restarts.
+The demo data is initialized only when no users exist and is not recreated on subsequent application restarts.
 
 The predefined demo accounts can be used to immediately test both USER and ADMIN functionality.
 
@@ -231,8 +251,7 @@ The frontend will be available at the local URL displayed by Vite, typically:
 
 `http://localhost:5173`
 
-
-If the frontend runs on a different port, its origin must also be added to the CORS configuration in:
+The backend CORS configuration allows the default Vite development (http://localhost:5173) and preview (http://localhost:4173) origins. If Vite starts on a different port, the corresponding origin must be added to the CORS configuration.
 
 `petcare_backend/src/main/java/gr/aueb/cf9/petcare/config/SecurityConfig.java`
 
@@ -263,6 +282,10 @@ To preview the production build locally, run:
 npm run preview
 ```
 
+The preview server will typically be available at:
+
+`http://localhost:4173`
+
 ## API Documentation
 
 The backend REST API is documented using Swagger / OpenAPI.
@@ -278,6 +301,10 @@ For protected endpoints, authenticate through the login endpoint and use the gen
 ## Authentication and Authorization
 
 The application uses JWT-based authentication and supports two roles:
+
+### Registration
+
+- Public registration automatically creates a USER account together with its associated Owner profile. The role cannot be selected during registration. Usernames and owner email addresses must be unique.
 
 ### USER
 - Can access and manage only their own pets
@@ -309,7 +336,7 @@ The application includes a small demo dataset designed to demonstrate different 
 - **admin1**
   - Pico
     - Rabies — VALID
-    - Chronic rhinitis follow-up
+    - Routine check-up — Chronic rhinitis
 
 - **user1**
   - Luna
@@ -325,7 +352,7 @@ The application includes a small demo dataset designed to demonstrate different 
     - Rabies — EXPIRED
     - FeLV — NO_DUE_DATE
     - FVRCP — UPCOMING
-    - Annual check-up
+    - Annual health check
 
 The dataset provides examples of:
 - USER and ADMIN access
@@ -333,9 +360,9 @@ The dataset provides examples of:
 - Different pet species
 - Pets with and without vaccinations
 - Medical records
-- All supported vaccination statuses
+- Different vaccination statuses based on due dates
 
-The demo dataset is created automatically only when the database is empty and is intended for testing and demonstration purposes.
+The demo dataset is created automatically only when no users exist and is intended for testing and demonstration purposes.
 
 ## Future Improvements
 
@@ -347,3 +374,5 @@ Possible future extensions include:
 - Medication management
 - Pet passport management
 - File uploads for medical documents
+- User profile management and password changes
+- Direct pet photo uploads
