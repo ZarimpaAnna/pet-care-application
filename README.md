@@ -344,7 +344,6 @@ Possible future extensions include:
 - Search and filtering
 - Pagination
 - Unit and integration tests
-- Database migrations with Flyway or Liquibase
 - Medication management
 - Pet passport management
 - File uploads for medical documents
